@@ -28,6 +28,7 @@
 #include "BNO080.h"
 #include "Quaternion.h"
 #include "ICM20602.h"
+#include "LPS22HH.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +46,7 @@ int _write(int file, char* p, int len)
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define X 0.90f
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -107,6 +108,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_SPI2_Init();
   MX_SPI1_Init();
+  MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
   LL_TIM_EnableCounter(TIM3);
   LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
@@ -122,6 +124,8 @@ int main(void)
   BNO080_enableRotationVector(2500); // 400Hz
 
   ICM20602_Initialization();
+
+  LPS22HH_Initialization();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -145,16 +149,28 @@ int main(void)
 //
 //		 printf("%f, %f, %f \n",BNO080_Roll*100,BNO080_Pitch*100,BNO080_Yaw*100);
 //	 }
-	 if(ICM20602_DataReady() == 1)
-	 {
-		 ICM20602_Get3AxisGyroRawData(&ICM20602.gyro_x_raw);
+//	 if(ICM20602_DataReady() == 1)
+//	 {
+//		 ICM20602_Get3AxisGyroRawData(&ICM20602.gyro_x_raw);
+//
+//		 ICM20602.gyro_x = ICM20602.gyro_x_raw * 2000.f / 32768.f;
+//		 ICM20602.gyro_y = ICM20602.gyro_y_raw * 2000.f / 32768.f;
+//		 ICM20602.gyro_z = ICM20602.gyro_z_raw * 2000.f / 32768.f;
+//
+//		 printf("%f %f %f \n",ICM20602.gyro_x,ICM20602.gyro_y,ICM20602.gyro_z);
+//	 }
+	  if(LPS22HH_DataReady() == 1)
+	  {
+		  LPS22HH_GetPressure(&LPS22HH.pressure_raw);
+		  LPS22HH_GetTemperature(&LPS22HH.temperature_raw);
 
-		 ICM20602.gyro_x = ICM20602.gyro_x_raw * 2000.f / 32768.f;
-		 ICM20602.gyro_y = ICM20602.gyro_y_raw * 2000.f / 32768.f;
-		 ICM20602.gyro_z = ICM20602.gyro_z_raw * 2000.f / 32768.f;
+		  LPS22HH.baroAlt = getAltitude2(LPS22HH.pressure_raw / 4096.f, LPS22HH.temperature_raw / 100.f);
 
-		 printf("%f %f %f \n",ICM20602.gyro_x,ICM20602.gyro_y,ICM20602.gyro_z);
-	 }
+		  LPS22HH.baroAltFilt = LPS22HH.baroAltFilt * X  + LPS22HH.baroAlt * (1.0f - X );
+
+		  printf("%f ",LPS22HH.baroAlt * 100);
+		  printf("%f\n",LPS22HH.baroAltFilt * 100);
+	  }
 
   }
   /* USER CODE END 3 */

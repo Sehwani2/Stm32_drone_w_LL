@@ -1,4 +1,4 @@
-20:52:47 **** Incremental Build of configuration Debug for project Project_drone ****
+20:50:15 **** Incremental Build of configuration Debug for project Project_drone ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F405xx -DUSE_FULL_LL_DRIVER -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 In file included from ../Core/Src/main.c:30:
@@ -15,29 +15,60 @@ In file included from ../Core/Src/main.c:28:
 ../Core/Inc/BNO080.h:88: note: this is the location of the previous definition
    88 | #define CHIP_DESELECT(BNO080)   LL_GPIO_SetOutputPin(BNO080_SPI_CS_PORT, BNO080_SPI_CS_PIN)
       | 
+In file included from ../Core/Src/main.c:31:
+../Core/Inc/LPS22HH.h:65: warning: "CHIP_SELECT" redefined
+   65 | #define CHIP_SELECT(LPS22HH)            LL_GPIO_ResetOutputPin(LPS22HH_SPI_CS_PORT, LPS22HH_SPI_CS_PIN)
+      | 
+../Core/Inc/ICM20602.h:64: note: this is the location of the previous definition
+   64 | #define CHIP_SELECT(ICM20602)           LL_GPIO_ResetOutputPin(ICM20602_SPI_CS_PORT, ICM20602_SPI_CS_PIN)
+      | 
+../Core/Inc/LPS22HH.h:66: warning: "CHIP_DESELECT" redefined
+   66 | #define CHIP_DESELECT(LPS22HH)          LL_GPIO_SetOutputPin(LPS22HH_SPI_CS_PORT, LPS22HH_SPI_CS_PIN)
+      | 
+../Core/Inc/ICM20602.h:65: note: this is the location of the previous definition
+   65 | #define CHIP_DESELECT(ICM20602)         LL_GPIO_SetOutputPin(ICM20602_SPI_CS_PORT, ICM20602_SPI_CS_PIN)
+      | 
+../Core/Inc/LPS22HH.h:79: warning: "WHO_AM_I" redefined
+   79 | #define WHO_AM_I                0x0F
+      | 
+../Core/Inc/ICM20602.h:132: note: this is the location of the previous definition
+  132 | #define WHO_AM_I        0x75 //The default value of the register is 0x12.
+      | 
+../Core/Inc/LPS22HH.h:98: warning: "TEMP_OUT_L" redefined
+   98 | #define TEMP_OUT_L              0x2B
+      | 
+../Core/Inc/ICM20602.h:111: note: this is the location of the previous definition
+  111 | #define TEMP_OUT_L      0x42
+      | 
+../Core/Inc/LPS22HH.h:99: warning: "TEMP_OUT_H" redefined
+   99 | #define TEMP_OUT_H              0x2C
+      | 
+../Core/Inc/ICM20602.h:110: note: this is the location of the previous definition
+  110 | #define TEMP_OUT_H      0x41
+      | 
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:156:18: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
-  156 |                  printf("%f %f %f \n",ICM20602.gyro_x,ICM20602.gyro_y,ICM20602.gyro_z);
-      |                  ^~~~~~
-../Core/Src/main.c:31:1: note: include '<stdio.h>' or provide a declaration of 'printf'
-   30 | #include "ICM20602.h"
+../Core/Src/main.c:171:19: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+  171 |                   printf("%f\n",LPS22HH.baroAlt * 100);
+      |                   ^~~~~~
+../Core/Src/main.c:32:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   31 | #include "LPS22HH.h"
   +++ |+#include <stdio.h>
-   31 | /* USER CODE END Includes */
-../Core/Src/main.c:156:18: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
-  156 |                  printf("%f %f %f \n",ICM20602.gyro_x,ICM20602.gyro_y,ICM20602.gyro_z);
-      |                  ^~~~~~
-../Core/Src/main.c:156:18: note: include '<stdio.h>' or provide a declaration of 'printf'
-../Core/Src/main.c:85:15: warning: unused variable 'quatRadianAccuracy' [-Wunused-variable]
-   85 |         float quatRadianAccuracy;
+   32 | /* USER CODE END Includes */
+../Core/Src/main.c:171:19: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  171 |                   printf("%f\n",LPS22HH.baroAlt * 100);
+      |                   ^~~~~~
+../Core/Src/main.c:171:19: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c:86:15: warning: unused variable 'quatRadianAccuracy' [-Wunused-variable]
+   86 |         float quatRadianAccuracy;
       |               ^~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:84:15: warning: unused variable 'q' [-Wunused-variable]
-   84 |         float q[4];
+../Core/Src/main.c:85:15: warning: unused variable 'q' [-Wunused-variable]
+   85 |         float q[4];
       |               ^
-../Core/Src/main.c:83:15: warning: unused variable 'f' [-Wunused-variable]
-   83 |         float f = 1.234;
+../Core/Src/main.c:84:15: warning: unused variable 'f' [-Wunused-variable]
+   84 |         float f = 1.234;
       |               ^
-../Core/Src/main.c:82:13: warning: unused variable 'cnt' [-Wunused-variable]
-   82 |         int cnt =0;
+../Core/Src/main.c:83:13: warning: unused variable 'cnt' [-Wunused-variable]
+   83 |         int cnt =0;
       |             ^~~
 arm-none-eabi-gcc -o "Project_drone.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\project_drone\Project_drone\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Project_drone.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Project_drone.elf
@@ -45,11 +76,11 @@ Finished building target: Project_drone.elf
 arm-none-eabi-size  Project_drone.elf 
 arm-none-eabi-objdump -h -S Project_drone.elf  > "Project_drone.list"
    text	   data	    bss	    dec	    hex	filename
-  30340	    468	   2092	  32900	   8084	Project_drone.elf
+  33756	    468	   2068	  36292	   8dc4	Project_drone.elf
 Finished building: default.size.stdout
  
 Finished building: Project_drone.list
  
 
-20:52:48 Build Finished. 0 errors, 8 warnings. (took 1s.12ms)
+20:50:16 Build Finished. 0 errors, 13 warnings. (took 925ms)
 
