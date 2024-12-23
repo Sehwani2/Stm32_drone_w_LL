@@ -30,6 +30,7 @@
 #include "ICM20602.h"
 #include "LPS22HH.h"
 #include "M8N.h"
+#include "FS-IA6B.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,6 +64,9 @@ extern uint8_t uart6_rx_data;
 
 extern uint8_t m8n_rx_buf[36];
 extern uint8_t m8n_rx_cplt_flag;
+
+extern uint8_t ibus_rx_buf[32];
+extern uint8_t ibus_rx_cplt_flag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -114,6 +118,7 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI3_Init();
   MX_UART4_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
   LL_TIM_EnableCounter(TIM3);
   LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
@@ -124,15 +129,13 @@ int main(void)
 
   LL_USART_EnableIT_RXNE(USART6);
   LL_USART_EnableIT_RXNE(UART4);
-
+  LL_USART_EnableIT_RXNE(UART5);
 
   BNO080_Initialization();
   BNO080_enableRotationVector(2500); // 400Hz
 
   ICM20602_Initialization();
-
   LPS22HH_Initialization();
-
   M8N_Initialization();
   /* USER CODE END 2 */
 
@@ -179,17 +182,41 @@ int main(void)
 //		  printf("%f ",LPS22HH.baroAlt * 100);
 //		  printf("%f\n",LPS22HH.baroAltFilt * 100);
 //	  }
-	  if(m8n_rx_cplt_flag == 1)
+//	  if(m8n_rx_cplt_flag == 1)
+//	  {
+//		  m8n_rx_cplt_flag = 0;
+//
+//		  if( M8N_UBX_CHKSUM(&m8n_rx_buf[0],36) == 1)
+//		  {
+//			  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_2);
+//			  M8N_UBX_POSLLH_Parsing(&m8n_rx_buf[0], &posllh);
+//
+//			  printf("LAT : %ld\t LON: %ld\t height : %ld",posllh.lat, posllh.lon, posllh.height);
+//		  }
+//	  }
+
+	  if(ibus_rx_cplt_flag == 1)
 	  {
-		  m8n_rx_cplt_flag = 0;
-
-		  if( M8N_UBX_CHKSUM(&m8n_rx_buf[0],36) == 1)
+		  ibus_rx_cplt_flag = 0;
+		  if(iBus_Check_CHKSUM(&ibus_rx_buf[0],32) == 1)
 		  {
-			  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_2);
-			  M8N_UBX_POSLLH_Parsing(&m8n_rx_buf[0], &posllh);
+			LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_2);
+			iBus_Parsing(&ibus_rx_buf[0], &iBus);
 
-			  printf("LAT : %ld\t LON: %ld\t height : %ld",posllh.lat, posllh.lon, posllh.height);
+			if(iBus_isActiveFailsafe(&iBus) == 1)
+			{
+				LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
+			}
+			else
+			{
+				LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH4);
+			}
+			 printf("%d\t%d\t%d\t%d\t%d\t%d\n",
+					iBus.RH, iBus.RV, iBus.LV, iBus.LH, iBus.SwA, iBus.SwC);
+
+			 HAL_Delay(100);
 		  }
+
 	  }
 
   }

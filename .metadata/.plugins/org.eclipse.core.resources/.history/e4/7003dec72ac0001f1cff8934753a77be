@@ -1,0 +1,13 @@
+/*
+ * FS-IA6B.c
+ *
+ *  Created on: Dec 22, 2024
+ *      Author: hyn02
+ */
+
+#include "FS-IA6B.h"
+
+iBus_Check_CHKSUM(unsigned char* data, unsigned char len)
+{
+
+}

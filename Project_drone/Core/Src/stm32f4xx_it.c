@@ -45,9 +45,15 @@
 	uint8_t uart6_rx_data =0;
 	uint8_t uart4_rx_flag = 0;
 	uint8_t uart4_rx_data =0;
+	uint8_t uart5_rx_flag = 0;
+	uint8_t uart5_rx_data =0;
 
 	uint8_t m8n_rx_buf[36];
 	uint8_t m8n_rx_cplt_flag = 0;
+
+	uint8_t ibus_rx_buf[32];
+	uint8_t ibus_rx_cplt_flag = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -258,6 +264,60 @@ void UART4_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles UART5 global interrupt.
+  */
+void UART5_IRQHandler(void)
+{
+	static unsigned char ibus_cnt =0;
+  /* USER CODE BEGIN UART5_IRQn 0 */
+	if(LL_USART_IsActiveFlag_RXNE(UART5))
+	{
+		LL_USART_ClearFlag_RXNE(UART5);
+		uart5_rx_data = LL_USART_ReceiveData8(UART5);
+		uart5_rx_flag = 1;
+
+//		while(!LL_USART_IsActiveFlag_TXE(USART6));
+//		LL_USART_TransmitData8(USART6, uart5_rx_data);
+
+		switch(ibus_cnt)
+		{
+		case 0 :
+			if(uart5_rx_data == 0x20)
+			{
+				ibus_rx_buf[ibus_cnt] = uart5_rx_data;
+				ibus_cnt++;
+			}
+			break;
+		case 1:
+			if(uart5_rx_data == 0x40)
+			{
+				ibus_rx_buf[ibus_cnt] = uart5_rx_data;
+				ibus_cnt++;
+			}
+			else
+			{
+				ibus_cnt = 0;
+			}
+			break;
+		case 31:
+			ibus_rx_buf[ibus_cnt] = uart5_rx_data;
+			ibus_cnt = 0;
+			ibus_rx_cplt_flag = 1;
+			break;
+		default:
+			ibus_rx_buf[ibus_cnt] = uart5_rx_data;
+			ibus_cnt++;
+			break;
+		}
+
+	}
+  /* USER CODE END UART5_IRQn 0 */
+  /* USER CODE BEGIN UART5_IRQn 1 */
+
+  /* USER CODE END UART5_IRQn 1 */
+}
+
+/**
   * @brief This function handles USART6 global interrupt.
   */
 void USART6_IRQHandler(void)
@@ -269,7 +329,8 @@ void USART6_IRQHandler(void)
 		uart6_rx_data = LL_USART_ReceiveData8(USART6);
 		uart6_rx_flag = 1;
 
-		LL_USART_TransmitData8(UART4, uart6_rx_data);
+//		while(!LL_USART_IsActiveFlag_TXE(UART4));
+//		LL_USART_TransmitData8(UART4, uart6_rx_data);
 	}
   /* USER CODE END USART6_IRQn 0 */
   /* USER CODE BEGIN USART6_IRQn 1 */

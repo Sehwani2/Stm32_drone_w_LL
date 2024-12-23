@@ -1,4 +1,5 @@
 "./Core/Src/BNO080.o"
+"./Core/Src/FS-IA6B.o"
 "./Core/Src/ICM20602.o"
 "./Core/Src/LPS22HH.o"
 "./Core/Src/M8N.o"

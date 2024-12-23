@@ -1,61 +1,12 @@
-2024-12-21 08:33:10,660 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
-2024-12-21 08:33:14,177 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 733722872 Bytes (1073741824)
-2024-12-21 08:33:14,849 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 758527016 Bytes (1073741824)
-2024-12-21 08:33:15,676 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 796275752 Bytes (1073741824)
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: SPI
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: SPI
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: SPI
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: TIM1_8
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: SYS
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: RCC
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: NVIC
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: USART
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: UART
-2024-12-21 08:33:15,828 [INFO] BlockDiagram:2766 - set Specific Code input for plugin: GPIO
-2024-12-21 08:33:15,829 [INFO] CodeGenerator:807 - code generatio: config db path: C:\ST\STM32CubeIDE_1.16.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.12.0.202406281431\\db\
-2024-12-21 08:33:15,969 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\MXTmpFiles\license.tmp_save
-2024-12-21 08:33:16,132 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\MXTmpFiles\license.tmp
-2024-12-21 08:33:16,273 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Src\gpio.c_save
-2024-12-21 08:33:16,415 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Src\gpio.c
-2024-12-21 08:33:16,437 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\gpio.h_save
-2024-12-21 08:33:16,557 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Inc\gpio.h
-2024-12-21 08:33:17,106 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Src\spi.c_save
-2024-12-21 08:33:17,326 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Src\spi.c
-2024-12-21 08:33:17,362 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\spi.h_save
-2024-12-21 08:33:17,491 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Inc\spi.h
-2024-12-21 08:33:17,526 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Src\tim.c_save
-2024-12-21 08:33:17,633 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Src\tim.c
-2024-12-21 08:33:17,639 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\tim.h_save
-2024-12-21 08:33:17,727 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Inc\tim.h
-2024-12-21 08:33:17,747 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Src\usart.c_save
-2024-12-21 08:33:17,867 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Src\usart.c
-2024-12-21 08:33:17,872 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\usart.h_save
-2024-12-21 08:33:17,957 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Inc\usart.h
-2024-12-21 08:33:17,990 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Src\stm32f4xx_it.c_save
-2024-12-21 08:33:18,187 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Src\stm32f4xx_it.c
-2024-12-21 08:33:18,214 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\stm32f4xx_it.h_save
-2024-12-21 08:33:18,304 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Inc\stm32f4xx_it.h
-2024-12-21 08:33:18,340 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Src\stm32f4xx_hal_msp.c_save
-2024-12-21 08:33:18,446 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Src\stm32f4xx_hal_msp.c
-2024-12-21 08:33:18,459 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\MXTmpFiles\system.tmp_save
-2024-12-21 08:33:18,520 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\MXTmpFiles\system.tmp
-2024-12-21 08:33:18,557 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\stm32_assert.h_save
-2024-12-21 08:33:18,618 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Inc\stm32_assert.h
-2024-12-21 08:33:18,647 [INFO] CodeEngine:311 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\stm32f4xx_hal_conf.h_save
-2024-12-21 08:33:18,754 [INFO] CodeEngine:335 - Generated code: C:\project_drone\Project_drone\Core\Inc\stm32f4xx_hal_conf.h
-2024-12-21 08:33:18,821 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Inc\main.h_save
-2024-12-21 08:33:18,916 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Inc\main.h
-2024-12-21 08:33:18,944 [INFO] CodeEngine:255 - oldGeneratedFile, C:\project_drone\Project_drone\Core\Src\main.c_save
-2024-12-21 08:33:19,052 [INFO] CodeEngine:279 - Generated code: C:\project_drone\Project_drone\Core\Src\main.c
-2024-12-21 08:33:19,370 [INFO] ProjectBuilder:3249 - Time for Copy HAL[1] : 169mS.
-2024-12-21 08:33:19,373 [INFO] ProjectBuilder:4828 - Project Generator version: 4.4.0-B60
-2024-12-21 08:33:19,456 [INFO] ConfigFileManager:1531 - The Die is : DIE413
-2024-12-21 08:33:21,698 [INFO] ProjectBuilder:5097 - Time for Generating toolchain IDE Files: 2325mS.
-2024-12-21 08:33:21,699 [INFO] ProjectBuilder:3107 - Time for Copy CMSIS : 0mS.
-2024-12-21 08:33:21,702 [INFO] ProjectBuilder:3107 - Time for Copy CMSIS : 0mS.
-2024-12-21 09:00:31,161 [INFO] WebApp:388 - JxBrowser engine has been closed 
-2024-12-21 09:02:16,476 [INFO] Activator:176 - 
+2024-12-23 08:35:46,852 [INFO] WebApp:189 - Connection lost
+2024-12-23 18:37:10,781 [INFO] WebApp:186 - Connection restablished
+2024-12-23 18:37:14,033 [INFO] WebApp:189 - Connection lost
+2024-12-23 18:37:14,192 [INFO] WebApp:186 - Connection restablished
+2024-12-23 18:38:56,533 [INFO] WebApp:189 - Connection lost
+2024-12-23 18:38:56,765 [INFO] WebApp:186 - Connection restablished
+2024-12-23 18:45:19,648 [INFO] WebApp:388 - JxBrowser engine has been closed 
+2024-12-23 19:19:01,982 [INFO] Activator:176 - 
 
 
-2024-12-21 09:02:16,478 [INFO] Activator:177 - !SESSION log4j initialized
-2024-12-21 09:02:24,769 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2024-12-23 19:19:01,984 [INFO] Activator:177 - !SESSION log4j initialized
+2024-12-23 19:19:08,118 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
