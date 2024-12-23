@@ -174,10 +174,10 @@ int main(void)
   while(Is_iBus_Throttle_Min() == 0)
   {
 	  LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
-	  TIM3->PSC = 1000;
-	  HAL_Delay(150);
+	  TIM3->PSC = 3000;
+	  HAL_Delay(200);
 	  LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH4);
-	  HAL_Delay(150);
+	  HAL_Delay(200);
   }
   // buzzer on
   LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);

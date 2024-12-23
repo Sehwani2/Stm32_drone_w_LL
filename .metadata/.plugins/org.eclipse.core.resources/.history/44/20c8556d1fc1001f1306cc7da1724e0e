@@ -269,8 +269,6 @@ void UART4_IRQHandler(void)
 void UART5_IRQHandler(void)
 {
   /* USER CODE BEGIN UART5_IRQn 0 */
-	static unsigned char ibus_cnt =0;
-
 	if(LL_USART_IsActiveFlag_RXNE(UART5))
 	{
 		LL_USART_ClearFlag_RXNE(UART5);

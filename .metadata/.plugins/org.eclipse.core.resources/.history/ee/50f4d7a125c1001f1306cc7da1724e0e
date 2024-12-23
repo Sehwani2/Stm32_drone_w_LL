@@ -73,8 +73,6 @@ extern uint8_t ibus_rx_cplt_flag;
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 int Is_iBus_Throttle_Min(void);
-int Is_iBus_Received(void);
-void ESC_Calibration(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -141,45 +139,18 @@ int main(void)
   LL_TIM_CC_EnableChannel(TIM5,LL_TIM_CHANNEL_CH3);
   LL_TIM_CC_EnableChannel(TIM5,LL_TIM_CHANNEL_CH4);
 
-  while(Is_iBus_Received() == 0)
-  {
-	  LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
-	  TIM3->PSC = 3000; // buzzer pwm
-	  HAL_Delay(200);
-	  LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH4);
-	  HAL_Delay(200);
-  }
+  TIM5->CCR1 = 21000;
+  TIM5->CCR2 = 21000;
+  TIM5->CCR3 = 21000;
+  TIM5->CCR4 = 21000;
+  HAL_Delay(7000);
+  TIM5->CCR1 = 10500;
+  TIM5->CCR2 = 10500;
+  TIM5->CCR3 = 10500;
+  TIM5->CCR4 = 10500;
+  HAL_Delay(8000);
 
-  if(iBus.SwC == 2000)
-  {
-	  LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
-	  TIM3->PSC = 1500;
-	  HAL_Delay(200);
-	  LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH4);
-	  HAL_Delay(200);
-
-	  ESC_Calibration();
-	  while(iBus.SwC != 1000)
-	  {
-		  Is_iBus_Received();
-
-		  LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
-		  TIM3->PSC = 1500;
-		  HAL_Delay(200);
-		  LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH4);
-		  HAL_Delay(200);
-	  }
-  }
-
-  while(Is_iBus_Throttle_Min() == 0)
-  {
-	  LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
-	  TIM3->PSC = 1000;
-	  HAL_Delay(150);
-	  LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH4);
-	  HAL_Delay(150);
-  }
-  // buzzer on
+  while(Is_iBus_Throttle_Min() == 0);
   LL_TIM_CC_EnableChannel(TIM3,LL_TIM_CHANNEL_CH4);
   TIM3->PSC = 2000; // buzzer pwm
   //TIM3->CCR4 = TIM3->ARR/2; // PWM Width
@@ -337,37 +308,6 @@ int Is_iBus_Throttle_Min(void)
 	}
 	return 0;
 }
-
-int Is_iBus_Received(void)
-{
-	if(ibus_rx_cplt_flag == 1)
-		{
-			ibus_rx_cplt_flag = 0;
-			if(iBus_Check_CHKSUM(&ibus_rx_buf[0],32) == 1)
-			{
-				iBus_Parsing(&ibus_rx_buf[0], &iBus);
-
-				return 1;
-			}
-		}
-		return 0;
-}
-
-void ESC_Calibration(void)
-{
-	 TIM5->CCR1 = 21000;
-	  TIM5->CCR2 = 21000;
-	  TIM5->CCR3 = 21000;
-	  TIM5->CCR4 = 21000;
-	  HAL_Delay(7000);
-	  TIM5->CCR1 = 10500;
-	  TIM5->CCR2 = 10500;
-	  TIM5->CCR3 = 10500;
-	  TIM5->CCR4 = 10500;
-	  HAL_Delay(8000);
-}
-
-
 /* USER CODE END 4 */
 
 /**
