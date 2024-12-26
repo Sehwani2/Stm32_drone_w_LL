@@ -101,7 +101,7 @@ int main(void)
 	unsigned char buf_write[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
 	unsigned short adcVal;
 	float batVolt;
-	short gyro_x_offset = -12, gyro_y_offset = 11, gyro_z_offset = 12;
+	short gyro_x_offset = -10, gyro_y_offset = 10, gyro_z_offset = 10;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -155,13 +155,12 @@ int main(void)
 
   HAL_ADC_Start_DMA(&hadc1, &adcVal, 1);
 
-  // ICM offset
-  ICM20602_Writebyte(0x13, (gyro_x_offset*-2) >> 8 );
-  ICM20602_Writebyte(0x14, (gyro_x_offset*-2));
-  ICM20602_Writebyte(0x15, (gyro_y_offset*-2) >> 8 );
-  ICM20602_Writebyte(0x16, (gyro_y_offset*-2));
-  ICM20602_Writebyte(0x17, (gyro_z_offset*-2) >> 8 );
-  ICM20602_Writebyte(0x18, (gyro_z_offset*-2));
+ICM20602_Writebyte(0x13, (gyro_x_offset*-2) >> 8 );
+ICM20602_Writebyte(0x14, (gyro_x_offset*-2));
+ICM20602_Writebyte(0x15, (gyro_y_offset*-2) >> 8 );
+ICM20602_Writebyte(0x16, (gyro_y_offset*-2));
+ICM20602_Writebyte(0x17, (gyro_z_offset*-2) >> 8 );
+ICM20602_Writebyte(0x18, (gyro_z_offset*-2));
 
   while(Is_iBus_Received() == 0)
   {

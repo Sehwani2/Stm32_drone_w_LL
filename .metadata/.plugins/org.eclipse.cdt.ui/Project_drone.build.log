@@ -1,10 +1,109 @@
-18:53:27 **** Incremental Build of configuration Debug for project Project_drone ****
+14:41:11 **** Incremental Build of configuration Debug for project Project_drone ****
 make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F405xx -DUSE_FULL_LL_DRIVER -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from ../Core/Src/main.c:33:
+../Core/Inc/ICM20602.h:64: warning: "CHIP_SELECT" redefined
+   64 | #define CHIP_SELECT(ICM20602)           LL_GPIO_ResetOutputPin(ICM20602_SPI_CS_PORT, ICM20602_SPI_CS_PIN)
+      | 
+In file included from ../Core/Src/main.c:31:
+../Core/Inc/BNO080.h:87: note: this is the location of the previous definition
+   87 | #define CHIP_SELECT(BNO080)             LL_GPIO_ResetOutputPin(BNO080_SPI_CS_PORT, BNO080_SPI_CS_PIN)
+      | 
+../Core/Inc/ICM20602.h:65: warning: "CHIP_DESELECT" redefined
+   65 | #define CHIP_DESELECT(ICM20602)         LL_GPIO_SetOutputPin(ICM20602_SPI_CS_PORT, ICM20602_SPI_CS_PIN)
+      | 
+../Core/Inc/BNO080.h:88: note: this is the location of the previous definition
+   88 | #define CHIP_DESELECT(BNO080)   LL_GPIO_SetOutputPin(BNO080_SPI_CS_PORT, BNO080_SPI_CS_PIN)
+      | 
+In file included from ../Core/Src/main.c:34:
+../Core/Inc/LPS22HH.h:65: warning: "CHIP_SELECT" redefined
+   65 | #define CHIP_SELECT(LPS22HH)            LL_GPIO_ResetOutputPin(LPS22HH_SPI_CS_PORT, LPS22HH_SPI_CS_PIN)
+      | 
+../Core/Inc/ICM20602.h:64: note: this is the location of the previous definition
+   64 | #define CHIP_SELECT(ICM20602)           LL_GPIO_ResetOutputPin(ICM20602_SPI_CS_PORT, ICM20602_SPI_CS_PIN)
+      | 
+../Core/Inc/LPS22HH.h:66: warning: "CHIP_DESELECT" redefined
+   66 | #define CHIP_DESELECT(LPS22HH)          LL_GPIO_SetOutputPin(LPS22HH_SPI_CS_PORT, LPS22HH_SPI_CS_PIN)
+      | 
+../Core/Inc/ICM20602.h:65: note: this is the location of the previous definition
+   65 | #define CHIP_DESELECT(ICM20602)         LL_GPIO_SetOutputPin(ICM20602_SPI_CS_PORT, ICM20602_SPI_CS_PIN)
+      | 
+../Core/Inc/LPS22HH.h:79: warning: "WHO_AM_I" redefined
+   79 | #define WHO_AM_I                0x0F
+      | 
+../Core/Inc/ICM20602.h:132: note: this is the location of the previous definition
+  132 | #define WHO_AM_I        0x75 //The default value of the register is 0x12.
+      | 
+../Core/Inc/LPS22HH.h:98: warning: "TEMP_OUT_L" redefined
+   98 | #define TEMP_OUT_L              0x2B
+      | 
+../Core/Inc/ICM20602.h:111: note: this is the location of the previous definition
+  111 | #define TEMP_OUT_L      0x42
+      | 
+../Core/Inc/LPS22HH.h:99: warning: "TEMP_OUT_H" redefined
+   99 | #define TEMP_OUT_H              0x2C
+      | 
+../Core/Inc/ICM20602.h:110: note: this is the location of the previous definition
+  110 | #define TEMP_OUT_H      0x41
+      | 
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:156:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  156 |   HAL_ADC_Start_DMA(&hadc1, &adcVal, 1);
+      |                             ^~~~~~~
+      |                             |
+      |                             short unsigned int *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:295,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:594:72: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'short unsigned int *'
+  594 | HAL_StatusTypeDef HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                              ~~~~~~~~~~^~~~~
+../Core/Src/main.c:159:3: warning: implicit declaration of function 'ICM20602_Writebyte' [-Wimplicit-function-declaration]
+  159 |   ICM20602_Writebyte(0x13, (gyro_x_offset*-2) >> 8 );
+      |   ^~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:282:19: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+  282 |                   printf("%d %d %d \n",ICM20602.gyro_x_raw,ICM20602.gyro_y_raw,ICM20602.gyro_z_raw);
+      |                   ^~~~~~
+../Core/Src/main.c:38:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   37 | #include "AT24C08.h"
+  +++ |+#include <stdio.h>
+   38 | /* USER CODE END Includes */
+../Core/Src/main.c:282:19: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  282 |                   printf("%d %d %d \n",ICM20602.gyro_x_raw,ICM20602.gyro_y_raw,ICM20602.gyro_z_raw);
+      |                   ^~~~~~
+../Core/Src/main.c:282:19: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c:101:23: warning: unused variable 'buf_write' [-Wunused-variable]
+  101 |         unsigned char buf_write[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+      |                       ^~~~~~~~~
+../Core/Src/main.c:100:23: warning: unused variable 'buf_read' [-Wunused-variable]
+  100 |         unsigned char buf_read[16] = {0};
+      |                       ^~~~~~~~
+../Core/Src/main.c:99:15: warning: variable 'quatRadianAccuracy' set but not used [-Wunused-but-set-variable]
+   99 |         float quatRadianAccuracy;
+      |               ^~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'BNO080_Calibration':
+../Core/Src/main.c:441:9: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  441 |         printf("Calibrating BNO080. Pull up FS-i6 SWC to end calibration and save to flash\n");
+      |         ^~~~~~
+../Core/Src/main.c:441:9: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c:459:31: warning: unused variable 'quatK' [-Wunused-variable]
+  459 |                         float quatK = BNO080_getQuatK();
+      |                               ^~~~~
+../Core/Src/main.c:458:31: warning: unused variable 'quatJ' [-Wunused-variable]
+  458 |                         float quatJ = BNO080_getQuatJ();
+      |                               ^~~~~
+arm-none-eabi-gcc -o "Project_drone.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\project_drone\Project_drone\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Project_drone.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Project_drone.elf
+ 
 arm-none-eabi-size  Project_drone.elf 
+arm-none-eabi-objdump -h -S Project_drone.elf  > "Project_drone.list"
    text	   data	    bss	    dec	    hex	filename
-  48200	    472	   2480	  51152	   c7d0	Project_drone.elf
+  48720	    472	   2520	  51712	   ca00	Project_drone.elf
 Finished building: default.size.stdout
  
+Finished building: Project_drone.list
+ 
 
-18:53:28 Build Finished. 0 errors, 0 warnings. (took 306ms)
+14:41:12 Build Finished. 0 errors, 17 warnings. (took 1s.107ms)
 

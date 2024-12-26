@@ -101,7 +101,6 @@ int main(void)
 	unsigned char buf_write[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
 	unsigned short adcVal;
 	float batVolt;
-	short gyro_x_offset = -12, gyro_y_offset = 11, gyro_z_offset = 12;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -155,13 +154,7 @@ int main(void)
 
   HAL_ADC_Start_DMA(&hadc1, &adcVal, 1);
 
-  // ICM offset
-  ICM20602_Writebyte(0x13, (gyro_x_offset*-2) >> 8 );
-  ICM20602_Writebyte(0x14, (gyro_x_offset*-2));
-  ICM20602_Writebyte(0x15, (gyro_y_offset*-2) >> 8 );
-  ICM20602_Writebyte(0x16, (gyro_y_offset*-2));
-  ICM20602_Writebyte(0x17, (gyro_z_offset*-2) >> 8 );
-  ICM20602_Writebyte(0x18, (gyro_z_offset*-2));
+
 
   while(Is_iBus_Received() == 0)
   {
@@ -268,19 +261,19 @@ int main(void)
 
 		  Quaternion_Update(&q[0]);
 
-		  //printf("%.2f\t%.2f\n", BNO080_Roll, BNO080_Pitch);
-		  //printf("%.2f\n", BNO080_Yaw);
+		 //printf("%.2f\t%.2f\n", BNO080_Roll, BNO080_Pitch);
+		 printf("%.2f\n", BNO080_Yaw);
 	  }
-	  if(ICM20602_DataReady() == 1)
-	  {
-		  ICM20602_Get3AxisGyroRawData(&ICM20602.gyro_x_raw);
-
-		  ICM20602.gyro_x = ICM20602.gyro_x_raw * 2000.f / 32768.f;
-		  ICM20602.gyro_y = ICM20602.gyro_y_raw * 2000.f / 32768.f;
-		  ICM20602.gyro_z = ICM20602.gyro_z_raw * 2000.f / 32768.f;
-
-		  printf("%d %d %d \n",ICM20602.gyro_x_raw,ICM20602.gyro_y_raw,ICM20602.gyro_z_raw);
-	  }
+	  //	 if(ICM20602_DataReady() == 1)
+	  //	 {
+	  //		 ICM20602_Get3AxisGyroRawData(&ICM20602.gyro_x_raw);
+	  //
+	  //		 ICM20602.gyro_x = ICM20602.gyro_x_raw * 2000.f / 32768.f;
+	  //		 ICM20602.gyro_y = ICM20602.gyro_y_raw * 2000.f / 32768.f;
+	  //		 ICM20602.gyro_z = ICM20602.gyro_z_raw * 2000.f / 32768.f;
+	  //
+	  //		 printf("%f %f %f \n",ICM20602.gyro_x,ICM20602.gyro_y,ICM20602.gyro_z);
+	  //	 }
 	  //	  if(LPS22HH_DataReady() == 1)
 	  //	  {
 	  //		  LPS22HH_GetPressure(&LPS22HH.pressure_raw);
