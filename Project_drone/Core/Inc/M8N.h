@@ -34,7 +34,7 @@ void M8N_TransmitData(unsigned char* data, unsigned char len);
 void M8N_Initialization(void);
 void N8M_UART4_Initialization(void);
 
-unsigned char M8N_UBX_CHKSUM(unsigned char* data, unsigned char len);
-void M8N_UBX_POSLLH_Parsing(unsigned char* data, M8N_UBX_NAV_POSLLH* posllh);
+unsigned char M8N_UBX_CHKSUM_Check(unsigned char* data, unsigned char len);
+void M8N_UBX_NAV_POSLLH_Parsing(unsigned char* data, M8N_UBX_NAV_POSLLH* posllh);
 
 #endif /* INC_M8N_H_ */

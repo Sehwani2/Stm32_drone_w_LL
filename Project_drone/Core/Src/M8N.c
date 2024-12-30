@@ -99,7 +99,7 @@ void N8M_UART4_Initialization(void)
 	  LL_USART_Enable(UART4);
 }
 
-unsigned char M8N_UBX_CHKSUM(unsigned char* data, unsigned char len)
+unsigned char M8N_UBX_CHKSUM_Check(unsigned char* data, unsigned char len)
 {
 	unsigned char CK_A = 0, CK_B =0;
 
@@ -111,7 +111,7 @@ unsigned char M8N_UBX_CHKSUM(unsigned char* data, unsigned char len)
 	return (CK_A == data[len-2] && CK_B == data[len-1]);
 }
 
-void M8N_UBX_POSLLH_Parsing(unsigned char* data, M8N_UBX_NAV_POSLLH* posllh)
+void M8N_UBX_NAV_POSLLH_Parsing(unsigned char* data, M8N_UBX_NAV_POSLLH* posllh)
 {
 	posllh->CLASS 	= 	data[2];
 	posllh->ID 		= 	data[3];
