@@ -56,6 +56,7 @@
 
 	uint8_t uart1_rx_data = 0;
 
+	uint8_t tim7_1ms_flag =0;
 	uint8_t tim7_20ms_flag =0;
 	uint8_t tim7_100ms_flag =0;
 	uint8_t tim7_1000ms_flag = 0;
@@ -224,7 +225,7 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 0 */
 
   /* USER CODE END USART1_IRQn 0 */
-	HAL_UART_IRQHandler(&huart1);
+  HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
@@ -338,12 +339,17 @@ void UART5_IRQHandler(void)
 void TIM7_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM7_IRQn 0 */
+
 	static unsigned char tim7_20ms_count = 0;
 	static unsigned char tim7_100ms_count = 0;
 	static unsigned short tim7_1000ms_count = 0;
 	if(LL_TIM_IsActiveFlag_UPDATE(TIM7))
 	{
 		LL_TIM_ClearFlag_UPDATE(TIM7);
+
+		tim7_1ms_flag = 1;
+
+
 		tim7_20ms_count++;
 		if(tim7_20ms_count == 20)
 		{
@@ -379,7 +385,7 @@ void DMA2_Stream0_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
 
   /* USER CODE END DMA2_Stream0_IRQn 0 */
-	HAL_DMA_IRQHandler(&hdma_adc1);
+  HAL_DMA_IRQHandler(&hdma_adc1);
   /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
 
   /* USER CODE END DMA2_Stream0_IRQn 1 */

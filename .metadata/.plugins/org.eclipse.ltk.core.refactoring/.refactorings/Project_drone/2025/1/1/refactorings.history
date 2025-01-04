@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Project_drone/Core/Inc/PID control.h&apos; to &apos;PID_control.h&apos;" description="Rename resource &apos;PID control.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Inc/PID control.h" name="PID_control.h" stamp="1735987095547" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Project_drone/Core/Src/PID control.c&apos; to &apos;PID_control.c&apos;" description="Rename resource &apos;PID control.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/PID control.c" name="PID_control.c" stamp="1735987108015" updateReferences="true"/>
+</session>

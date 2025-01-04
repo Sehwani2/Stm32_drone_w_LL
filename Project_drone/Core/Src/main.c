@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <PID_control.h>
 #include "main.h"
 #include "adc.h"
 #include "dma.h"
@@ -74,6 +75,7 @@ extern uint8_t ibus_rx_cplt_flag;
 
 extern uint8_t uart1_rx_data;
 
+extern uint8_t tim7_1ms_flag;
 extern uint8_t tim7_20ms_flag;
 extern uint8_t tim7_100ms_flag;
 extern uint8_t tim7_1000ms_flag;
@@ -148,6 +150,27 @@ int main(void)
 	unsigned short iBus_SwA_Prev = 0;
 
 	unsigned char iBus_rx_cnt=0;
+
+	unsigned short ccr1, ccr2, ccr3, ccr4;
+	float pitch_reference;
+	float pitch_p;
+	float pitch_error;
+	float pitch_i;
+	float pitch_error_sum = 0;
+	float pitch_derivative;
+	float pitch_d;
+	float pitch_pid;
+
+	float pitch_rate_reference;
+	float pitch_rate_p;
+	float pitch_rate_error;
+	float pitch_rate_i;
+	float pitch_rate_error_sum = 0;
+	float pitch_rate_derivative;
+	float pitch_rate_d;
+	float pitch_rate_pid;
+	float icm20602_gyro_x_prev;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -282,8 +305,6 @@ int main(void)
 
   M8N_Initialization();
 
-
-
   // ICM offset remove
   ICM20602_Writebyte(0x13, (gyro_x_offset*-2)>>8);
   ICM20602_Writebyte(0x14, (gyro_x_offset*-2));
@@ -415,9 +436,55 @@ int main(void)
   while (1)
   {
 
-	  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-	  /* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
+	  if(tim7_1ms_flag == 1)
+	  {
+		  tim7_1ms_flag = 0;
+
+		  // single PID
+//		  pitch_reference = (iBus.RV - 1500) * 0.1f;
+//		  pitch_error = pitch_reference - BNO080_Pitch;
+//		  pitch_p = pitch_error * pitch_out_kp;
+//
+//		  pitch_error_sum = pitch_error_sum + pitch_error * 0.001;
+//		  if(motor_arming_flag == 0 || iBus.LV < 1030) pitch_error_sum = 0;
+//		  pitch_i = pitch_error_sum * pitch_out_ki;
+		  //		  pitch_derivative = (BNO080_Pitch - BNO080_Pitch_Prev) / 0.001;
+		  //		  BNO080_Pitch_Prev = BNO080_Pitch;
+
+//		  pitch_derivative = ICM20602.gyro_x;
+//		  pitch_d = -pitch_derivative * pitch_out_kd;
+//
+//		  pitch_pid = pitch_p + pitch_i + pitch_d;
+		  ////// single PID
+
+		  //rate P
+		  pitch_rate_reference = (iBus.RV - 1500) * pitch_out_kp;
+		  pitch_rate_error = pitch_rate_reference - ICM20602.gyro_x;
+		  pitch_rate_p = pitch_rate_error * pitch_in_kp;
+		  //rate I
+		  pitch_rate_error_sum = pitch_rate_error_sum + pitch_rate_error * 0.001;
+		  if(motor_arming_flag == 0 || iBus.LV < 1030) pitch_rate_error_sum = 0;
+		  pitch_rate_i = pitch_rate_error_sum * pitch_in_ki;
+		  // rate D
+		  pitch_rate_derivative = (ICM20602.gyro_x - icm20602_gyro_x_prev) / 0.001;
+		  icm20602_gyro_x_prev = ICM20602.gyro_x;
+		  pitch_rate_d =  -pitch_rate_derivative * pitch_in_kd;
+
+		  pitch_rate_pid = pitch_rate_p + pitch_rate_i + pitch_rate_d;
+
+
+		  ccr1 = 10500 + 500 + (iBus.LV - 1000) * 10 - pitch_rate_pid;// + (iBus.RH - 1500) * 5 - (iBus.LH - 1500) * 5;
+		  ccr2 = 10500 + 500 + (iBus.LV - 1000) * 10 + pitch_rate_pid;// + (iBus.RH - 1500) * 5 + (iBus.LH - 1500) * 5;
+		  ccr3 = 10500 + 500 + (iBus.LV - 1000) * 10 + pitch_rate_pid;// - (iBus.RH - 1500) * 5 - (iBus.LH - 1500) * 5;
+		  ccr4 = 10500 + 500 + (iBus.LV - 1000) * 10 - pitch_rate_pid;// - (iBus.RH - 1500) * 5 + (iBus.LH - 1500) * 5;
+		  //printf("%f\t%f\n", BNO080_Pitch, ICM20602.gyro_x);
+		  //printf("%f\t%f\n", BNO080_Roll, ICM20602.gyro_y);
+		  //printf("%f\t%f\n", BNO080_Yaw, ICM20602.gyro_z);
+	  }
+
 	  if(iBus.SwA == 2000 && iBus_SwA_Prev != 2000)
 	  {
 		  if(iBus.LV < 1010)
@@ -448,10 +515,11 @@ int main(void)
 	  {
 		  if(failsafe_flag == 0)
 		  {
-			  TIM5->CCR1 = 10500 + 500 + (iBus.LV - 1000) * 10;
-			  TIM5->CCR2 = 10500 + 500 + (iBus.LV - 1000) * 10;
-			  TIM5->CCR3 = 10500 + 500 + (iBus.LV - 1000) * 10;
-			  TIM5->CCR4 = 10500 + 500 + (iBus.LV - 1000) * 10;
+			  TIM5->CCR1 = ccr1 > 21000 ? 21000 : ccr1 < 11000 ? 11000 : ccr1;
+			  TIM5->CCR2 = ccr2 > 21000 ? 21000 : ccr2 < 11000 ? 11000 : ccr2;
+			  TIM5->CCR3 = ccr3 > 21000 ? 21000 : ccr3 < 11000 ? 11000 : ccr3;
+			  TIM5->CCR4 = ccr4 > 21000 ? 21000 : ccr4 < 11000 ? 11000 : ccr4;
+
 		  }
 		  else
 		  {
@@ -643,6 +711,9 @@ int main(void)
 
 		  Quaternion_Update(&q[0]);
 
+		  BNO080_Roll = -BNO080_Roll;
+		  BNO080_Pitch = -BNO080_Pitch;
+
 		  //printf("%.2f\t%.2f\n", BNO080_Roll, BNO080_Pitch);
 		  //printf("%.2f\n", BNO080_Yaw);
 	  }
@@ -657,6 +728,9 @@ int main(void)
 		  ICM20602.gyro_x = ICM20602.gyro_x_raw * 2000.f / 32768.f;
 		  ICM20602.gyro_y = ICM20602.gyro_y_raw * 2000.f / 32768.f;
 		  ICM20602.gyro_z = ICM20602.gyro_z_raw * 2000.f / 32768.f;
+
+		  ICM20602.gyro_x = -ICM20602.gyro_x;
+		  ICM20602.gyro_z = -ICM20602.gyro_z;
 
 		  //printf("%d,%d,%d\n", ICM20602.gyro_x_raw, ICM20602.gyro_y_raw, ICM20602.gyro_z_raw);
 		  //printf("%d,%d,%d\n", (int)(ICM20602.gyro_x*100), (int)(ICM20602.gyro_y*100), (int)(ICM20602.gyro_z*100));
@@ -995,6 +1069,9 @@ void Encode_Msg_AHRS(unsigned char* telemetry_tx_buf)
 
 	  telemetry_tx_buf[5] = (short)(BNO080_Pitch*100);
 	  telemetry_tx_buf[6] = ((short)(BNO080_Pitch*100))>>8;
+
+//	  telemetry_tx_buf[5] = (short)(ICM20602.gyro_x*100);
+//	  telemetry_tx_buf[6] = ((short)(ICM20602.gyro_x*100))>>8;
 
 	  telemetry_tx_buf[7] = (unsigned short)(BNO080_Yaw*100);
 	  telemetry_tx_buf[8] = ((unsigned short)(BNO080_Yaw*100))>>8;
